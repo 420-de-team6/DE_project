@@ -13,6 +13,16 @@
   }
 }
 
+.black-nav {
+  display: flex;
+  background: black;
+  width: 100;
+  color: white;
+  padding-left: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
