@@ -26,7 +26,18 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
 `;
+const MyComponent = () => {
+  const handleClick = () => {
+    console.log('Button clicked!');
+  };
 
+  return (
+    <div>
+      <Button onClick={handleClick}>Mix music</Button>
+      <br></br>
+    </div>
+  );
+};
 const SelectBox = ({ options, defaultValue, onFileSelected }) => {
   const handleChange = (e) => {
     console.log(e.target.value);
@@ -80,6 +91,11 @@ function App() {
       <h4>Choose second music you want</h4>
       <div className='first_music_select'>
         <SelectBox options={first} defaultValue={first[0].value} onFileSelected={handleFileSelected} />
+        <audio src={selectedFile} controls />
+      </div>
+      <div className='Mix_music'>
+        <MyComponent/>
+        <h4>Result</h4>
         <audio src={selectedFile} controls />
       </div>
       
