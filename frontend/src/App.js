@@ -23,6 +23,21 @@ function App() {
   useEffect(() => {
     console.log("useEffect2", selectedFile2);
   }, [selectedFile2]); // 새로운 useEffect 추가
+
+  const handleMixMusic = () => {
+    // 선택한 오디오 파일을 백엔드로 전송
+    console.log("check audio file", {selectedFile1, selectedFile2});
+    fetch('http://localhost:8000/mix_music', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedFile1, selectedFile2 }), // 선택한 오디오 파일을 JSON 형식으로 전송
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+  };
   return (
     <div className="App">
       <div className="black-nav"> 
@@ -39,7 +54,8 @@ function App() {
         <audio src={selectedFile2} controls />
       </div>
       <div className='Mix_music'>
-        <MyComponent/>
+        {/* <MyComponent/> */}
+        <button onClick={handleMixMusic}>Mix Music</button> {/* 버튼 클릭 시 handleMixMusic 함수 호출 */}
         <h4>Result</h4>
         <audio src controls />
       </div>
