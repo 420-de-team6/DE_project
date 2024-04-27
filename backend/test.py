@@ -2,11 +2,11 @@ import os
 
 def find_path(selectedFile):
     if selectedFile == '955. Je Taime Montmartre':
-        return 'frontend\src\musicfile\955. Je Taime Montmartre.mp3'
+        return '../frontend/src/musicfile/955. Je Taime Montmartre.mp3'
     elif selectedFile == 'Love Game':
-        return 'frontend\src\musicfile\Love Game.mp3'
+        return '../frontend/src/musicfile/Love Game.mp3'
     elif selectedFile == '951. 꿀벌브금':
-        return 'frontend\src\musicfile\951. 꿀벌브금.mp3'
+        return '../frontend/src/musicfile/951. 꿀벌브금.mp3'
     else:
         return FileNotFoundError
 def get_audio_file(selectedFile1, selectedFile2):

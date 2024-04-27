@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from typing import List
 from test import get_audio_file, find_path
+from classification import clf
 app = FastAPI()
 
 
@@ -26,5 +27,7 @@ async def mix_music(selected_files: dict):
     selectedFile2 = selected_files.get("selectedFile2")
     print("Selected audio files:", selectedFile1, selectedFile2)
     file_name1, file_name2 = get_audio_file(selectedFile1, selectedFile2)
+    paths = [file_name1, file_name2]
+    print(clf(paths))
     print("Modified audio file names:", file_name1, file_name2)
     return JSONResponse(content={"message": "Audio files received successfully"})
