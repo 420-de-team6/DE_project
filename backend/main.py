@@ -1,11 +1,12 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from typing import List
 from test import get_audio_file, find_path
 from classification import clf
 from demo_musicgen import generate_music
 import pygame
+import io
 
 app = FastAPI()
 
@@ -36,9 +37,8 @@ async def mix_music(selected_files: dict):
     selectedFile2 = selected_files.get("selectedFile2")
     print("Selected audio files:", selectedFile1, selectedFile2)
     file_name1, file_name2 = get_audio_file(selectedFile1, selectedFile2)
-    paths = [file_name1, file_name2]
-    print(clf(paths)[0], type(clf(paths)[1]))
-    audio_file = generate_music(file_name1, "output.wav", clf(paths)[1], 32000)
-    pygame.mixer.music.load(audio_file)
-    pygame.mixer.music.play()
-    return JSONResponse(content={"message": "Audio files received successfully"})
+    paths = [file_name1[0], file_name2[0]]
+    print(clf(paths)[0])
+    audio_file = generate_music(file_name1[1], "output.wav", clf(paths)[1], 32000)
+    audio_data = open("output.wav", "rb").read()
+    return StreamingResponse(io.BytesIO(audio_data), media_type="audio/wav")

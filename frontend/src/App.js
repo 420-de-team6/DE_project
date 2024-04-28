@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"; // Import React
 import {MyComponent, SelectBox} from "./folder/function.js";
 import './App.css';
-import Love_Game from "./musicfile/Love Game.mp3";
-import 꿀벌브금 from "./musicfile/951. 꿀벌브금.mp3";
-import Je_Taime_Montmartre from "./musicfile/955. Je Taime Montmartre.mp3";
+import Love_Game from "./musicfile/Love_Game.mp3";
+import 꿀벌브금 from "./musicfile/꿀벌브금.mp3";
+import Je_Taime_Montmartre from "./musicfile/Je_Taime_Montmartre.mp3";
 
 function App() {
   const first = [
@@ -11,7 +11,7 @@ function App() {
     { value: Je_Taime_Montmartre, name: "Je Taime Montmartre" },
     { value: Love_Game, name: "Love Game" },
   ];
-
+  const [audioFile, setAudioFile] = useState("");
   const [selectedFile1, setSelectedFile1] = useState(first[0].value);
   const [selectedFile2, setSelectedFile2] = useState(first[0].value);
 
@@ -34,8 +34,16 @@ function App() {
       },
       body: JSON.stringify({ selectedFile1, selectedFile2 }), // 선택한 오디오 파일을 JSON 형식으로 전송
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      const audioURL = URL.createObjectURL(blob);
+      setAudioFile(audioURL);
+    })
     .catch(error => console.error('Error:', error));
   };
   return (
@@ -57,7 +65,7 @@ function App() {
         {/* <MyComponent/> */}
         <button onClick={handleMixMusic}>Mix Music</button> {/* 버튼 클릭 시 handleMixMusic 함수 호출 */}
         <h4>Result</h4>
-        <audio src controls />
+        {audioFile && <audio src={audioFile} controls />}
       </div>
       
     </div>

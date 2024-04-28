@@ -1,6 +1,6 @@
 # %pip install transformers
 from transformers import AutoProcessor, MusicgenForConditionalGeneration
-
+import os
 import scipy
 
 import librosa
@@ -9,7 +9,7 @@ import numpy as np
 import io
 from datasets import load_dataset
 from scipy.io import wavfile
-
+from pathlib import Path
 
 def convert_mp3_to_wav(input_file):
     mp3 = AudioSegment.from_file(input_file, format="mp3")
@@ -30,7 +30,7 @@ def load_wav_to_numpy(wav):
 
 
 def generate_music(input_file, output_file, input_prompt, target_sample_rate=32000):
-
+    print("input_file: ",input_file)
     # 초기값
 
     # input_prompt = "jazzy track with groovy saxophone"
