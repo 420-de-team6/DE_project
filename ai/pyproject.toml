@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "DE Project AI"
+version = "0.1.0"
+description = "DataEngineer Python Ai server"
+authors = ["kyle lee <conatus.kyle@gmail.com>"]
+license = "MIT"
+
+[[tool.poetry.packages]]
+include = "main.py"
+
+[[tool.poetry.packages]]
+include = "generate.py"
+
+[[tool.poetry.packages]]
+include = "upload.py"
+
+
+[tool.poetry.dependencies]
+python = "^3.9.0"  # Python 버전은 필요에 따라 조정하세요
+torch = "2.1.0"
+numpy = "1.26.4"
+torchvision = "0.16.0"
+torchtext = "0.16.0"
+# xformers = "*"
+transformers = "*"
+IPython = "*"
+scipy = "*"
+librosa = "*"
+uvicorn = "*"
+fastapi = "0.110.0"
+pandas = "*"
+pydub = "*"
+pygame = "*"
+datasets = "*"
+boto = "*"
+setuptools = "69.5.1"
+# xformers = "<0.0.23"
+# audiocraft = "^1.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
