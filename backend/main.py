@@ -8,6 +8,7 @@ import pygame
 import io
 from pydantic import BaseModel
 import make_audio_from_youtube
+from divider import audio_divider
 import os
 import shutil
 app = FastAPI()
@@ -64,11 +65,13 @@ async def Select_Two_Music(data: SelectMusic):
     print(data.MainMusic, data.SubMusic)
     main_link = list_url[data.MainMusic]
     sub_link = list_url[data.SubMusic]
-    main_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.MainMusic
-    sub_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.SubMusic
-    destination_dir = "C:/Users/daniel/Desktop/DE_project/frontend/src/Music/music_file"
+    # main_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.MainMusic
+    # sub_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.SubMusic
+    audio_origin_path="./Music/download/"
+    destination_dir = "../frontend/src/Music/music_file"
     make_audio_from_youtube.delete_video()
-    make_audio_from_youtube.audio_extractor([main_link, sub_link], "C:/Users/daniel/Desktop/DE_project/backend/Music/download/")
+    make_audio_from_youtube.audio_extractor([main_link, sub_link], "./Music/download/")
+    make_audio_from_youtube.copy_file(audio_origin_path, destination_dir)
     # if not os.path.exists(main_path):
     #     raise HTTPException(status_code=404, detail=f"MainMusic file not found: {main_path}")
     # if not os.path.exists(sub_path):
@@ -95,24 +98,31 @@ async def Select_Two_Music(data: SelectMusic):
     # }
     
 @app.post("/Mix_music")
-async def mix_music(data: SelectMusic):
-    main_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.MainMusic
-    sub_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.SubMusic
-    output= "C:/Users/daniel/Desktop/DE_project/backend/Music/result/output.wav"
-    destination_dir = "C:/Users/daniel/Desktop/DE_project/frontend/src/Music/output"
-    if not os.path.exists(output):
-        raise HTTPException(status_code=404, detail=f"Output file not found: {output}")
+async def mix_music(data: MixMusic):
+    main_path = "./Music/download/main.wav"
+    sub_path = "./Music/download/sub.wav"
+    print("mix 버튼 클릭시", data.MainMusic, data.SubMusic, data.inputValue1)
+    output_main= "./Music/divded/main.wav"
+    output_sub= "./Music/divided/sub.wav"
+    
+    # destination_dir = "C:/Users/daniel/Desktop/DE_project/frontend/src/Music/output"
+    # if not os.path.exists(output):
+    #     raise HTTPException(status_code=404, detail=f"Output file not found: {output}")
 
-    os.makedirs(destination_dir, exist_ok=True)
-    output_path = os.path.join(destination_dir, "output.wav")
+    # os.makedirs(destination_dir, exist_ok=True)
+    # output_path = os.path.join(destination_dir, "output.wav")
+    
+    audio_divider([main_path, sub_path], data.inputValue1)
 
-    try:
-        shutil.copy2(output, output_path)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error copying files: {str(e)}")
-    print("결과반환")
-    genre = classification(sub_path)
+    # try:
+    #     shutil.copy2(output, output_path)
+    # except Exception as e:
+    #     raise HTTPException(status_code=500, detail=f"Error copying files: {str(e)}")
+    # print("결과반환")
+    genre = classification(output_sub)
     print("sub_genre: ", genre)
+    
+    
     # print('file_get:', selected_files)
     # selectedFile1 = selected_files.get("selectedFile1")
     # selectedFile2 = selected_files.get("selectedFile2")

@@ -2,7 +2,7 @@ import librosa
 from keras.models import load_model
 import numpy as np
 import os
-
+import random
 
 def classification(path):
     bad_index = []
@@ -29,8 +29,23 @@ def classification(path):
         8: 'reggae',
         9: 'rock'
     }
+    prompting_map = {
+
+        "blues": ["soulful", "melancholic", "expressive", "deep", "nostalgic"],
+        "classical": ["elegant", "intricate", "timeless", "refined", "majestic"],
+        "country": ["rustic", "heartfelt", "down-to-earth", "twangy", "narrative"],
+        "disco": ["groovy", "vibrant", "danceable", "flashy", "upbeat"],
+        "hiphop": ["rhythmic", "dynamic", "urban", "lyrical", "bold"],
+        "jazz": ["smooth", "improvisational", "sophisticated", "cool", "complex"],
+        "metal": ["intense", "powerful", "aggressive", "heavy", "raw"],
+        "pop": ["catchy", "upbeat", "mainstream", "trendy", "melodic"],
+        "reggae": ["laid-back", "rhythmic", "island-inspired", "mellow", "rootsy"],
+        "rock": ["energetic", "rebellious", "electrifying", "gritty", "anthemic"]
+    }
 
     reshaped_Mel = Mel.reshape((1, 128, 1293, 1))
     genre = model.predict(reshaped_Mel)
     genre = np.argmax(genre)
-    return genre_map[genre]
+    genre = genre_map[genre]
+    random_adjectives = random.choice(prompting_map[genre])
+    return random_adjectives + " " + genre

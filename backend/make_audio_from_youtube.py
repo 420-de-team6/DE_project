@@ -42,11 +42,8 @@ def delete_video():
                 except Exception as e:
                     print(f"Failed to delete {file_path}. Reason: {e}")
     
-def audio_extractor(list_url, output_folder):
-    
-                    
+def audio_extractor(playlist_urls, output_folder):
     def download_video(video_url, output_path):
-            
         try:
             yt = YouTube(video_url)
             video = yt.streams.filter(only_audio=True).first()
@@ -56,13 +53,10 @@ def audio_extractor(list_url, output_folder):
             print(f"An error occurred downloading {video_url}: {e}")
             return None
 
-    def convert_to_wav(video_path):
+    def convert_to_wav(video_path, output_filename):
         try:
             audio = AudioFileClip(video_path)
-            # Extract the first `duration` seconds
-            wav_path = os.path.splitext(video_path)[0] + '.wav'
-            print(os.path.splitext(video_path))
-            # Specify codec for WAV format
+            wav_path = os.path.join(output_folder, output_filename)
             audio.write_audiofile(wav_path, codec='pcm_s16le')
             audio.close()
             os.remove(video_path)  # Remove the video file after conversion
@@ -74,13 +68,13 @@ def audio_extractor(list_url, output_folder):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    video_links = list_url
-    for index, video_url in enumerate(video_links):
-        name = 'main' if index == 0 else 'sub'
-        print(f"Processing {name} video : {video_url}")
+    filenames = ["main.wav", "sub.wav"]
+    for index, (video_url, filename) in enumerate(zip(playlist_urls, filenames)):
+        print(f"Processing video {
+              index + 1}/{len(playlist_urls)}: {video_url}")
         video_path = download_video(video_url, output_folder)
         if video_path:
-            wav_path = convert_to_wav(video_path)
+            wav_path = convert_to_wav(video_path, filename)
             if wav_path:
                 print(f"Successfully converted and saved: {wav_path}")
             else:
@@ -97,3 +91,25 @@ def title_url_pairs(url):
         return dic
     except Exception as e:
         return str(e)
+
+def copy_file(source_folder, destination_folder):
+
+    # 대상 폴더가 존재하지 않으면 생성합니다.
+    if not os.path.exists(destination_folder):
+        os.makedirs(destination_folder)
+
+    # 소스 폴더의 모든 파일을 반복 처리합니다.
+    for filename in os.listdir(source_folder):
+        source_file = os.path.join(source_folder, filename)
+        destination_file = os.path.join(destination_folder, filename)
+        
+        try:
+            # 파일이 실제로 파일인 경우에만 복사합니다.
+            if os.path.isfile(source_file):
+                shutil.copy2(source_file, destination_file)  # 메타데이터(타임스탬프 등) 포함 복사
+            elif os.path.isdir(source_file):
+                # 디렉토리인 경우 디렉토리 자체를 복사
+                shutil.copytree(source_file, destination_file)
+        except Exception as e:
+            print(f"Failed to copy {source_file} to {destination_file}. Reason: {e}")
+    
