@@ -5,18 +5,19 @@ import pandas as pd
 import numpy as np
 # from moviepy.editor import *
 from sklearn.preprocessing import StandardScaler
+from keras.models import load_model
+from features_ import *
+
+# 이후에 features_ 모듈의 함수를 사용할 수 있습니다.
 
 
-import features as ft
-
-SVC = joblib.load('./model.pkl')
-
+model = load_model(os.getcwd() + '/new_ensemble_mel.h5')
 
 class Classification:
     def __init__(self, paths):
         # self.links = links
         self.features = pd.DataFrame(
-            index=[1, 2], columns=ft.columns(), dtype=np.float32)
+            index=[1, 2], columns=features_.columns(), dtype=np.float32)
 
         # PATH = os.getcwd()
         # os.makedirs(name=PATH + '\musics', exist_ok=True)
@@ -36,7 +37,7 @@ class Classification:
     def featureGen(self):
         for i in range(1, 3):
             # filepath = self.path + '\music' + str(i) + '.mp3'
-            feature = ft.compute_features(self.paths[i-1]).astype(np.float32)
+            feature = features_.compute_features(self.paths[i-1]).astype(np.float32)
             self.features.loc[i] = feature
         print(self.features)
 

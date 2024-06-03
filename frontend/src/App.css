@@ -1,3 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url('C:/Users/daniel/Desktop/DE_project/frontend/src/image/Screenshot 2024-05-24 004718.png');
+  background-size: cover; /* 이미지가 화면 전체를 덮도록 조정 */
+  background-repeat: no-repeat; /* 이미지 반복 없음 */
+  background-position: center center; /* 이미지 위치 중앙으로 설정 */
+  background-attachment: fixed; /* 스크롤 시 배경 이미지 고정 */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}code {font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}* {margin: 0;
+  padding: 0;
+  box-sizing:border-box;
+}ol,ul,li {list-style: none;
+}
 .App {
   text-align: center;
 }
@@ -15,9 +34,8 @@
 
 .black-nav {
   display: flex;
-  background: black;
   width: 100;
-  color: white;
+  color: rgb(62, 29, 210);
   padding-left: 20px;
   justify-content: center;
   align-items: center;
@@ -38,6 +56,32 @@
   color: #61dafb;
 }
 
+/*배경화면*/
+.white-box-main{
+  background: rgba(255, 255, 255, 0.85); /* 투명한 흰색 */
+  padding: 10px; /* 내부 여백 */
+  border-radius: 8px; /* 모서리를 둥글게 */
+  width: 80%; /* 너비를 조절하세요 */
+  margin: 20px auto; /* 중앙 정렬 및 상단 여백 추가 */
+  height: 600px;
+}
+
+.white-box-audiolist{
+  background: rgba(255, 255, 255, 0.85); /* 투명한 흰색 */
+  padding: 10px; /* 내부 여백 */
+  border-radius: 8px; /* 모서리를 둥글게 */
+  width: 80%; /* 너비를 조절하세요 */
+  margin: 20px auto; /* 중앙 정렬 및 상단 여백 추가 */
+  height: 800px;
+}
+
+.first_music_select,
+.second_music_select {
+  width: 80%; /* 원하는 너비로 조정 */
+  margin: 0 auto; /* 요소를 중앙에 배치 */
+  margin-left: 20%;
+  /* background: rgba(255, 255, 255, 0.8); 배경 색상 및 투명도 추가 (선택 사항) */
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -45,4 +89,218 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+/*버튼 css*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.buttons {
+  margin: 10%;
+  text-align: center;
+}
+.btn-hover {
+  width: 200px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  margin: 20px;
+  height: 55px;
+  text-align:center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 50px;
+  -webkit-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+.btn-hover:hover {
+  background-position: 100% 0;
+  -webkit-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+.btn-hover:focus {
+  outline: none;
+}
+.btn-hover.color-2 {
+  background-image: linear-gradient(to right, #f5ce62, #e43603, #fa7199, #e85a19);
+  box-shadow: 0 4px 15px 0 rgba(19, 219, 12, 0.75);
+}
+.btn-hover.color-11 {
+  background-image: linear-gradient(to right, #eb3941, #f15e64, #e14e53, #e2373f);  box-shadow: 0 5px 15px rgba(242, 97, 103, .4);
+}
+
+.select-container {
+  display: flex; /* 요소들을 가로로 배치 */
+  flex-direction: column; /* 요소들을 세로로 배치 */
+}
+
+.select {
+  margin-bottom: 10px; /* 선택 리스트들 사이의 간격 설정 */
+}
+
+/*팝업창*/
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: rgb(240, 245, 200);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 80%; /* 너비를 80%로 설정 */
+  max-width: 600px; /* 최대 너비를 600px로 설정 */
+  height: 60%; /* 높이를 60%로 설정 */
+  max-height: 400px; /* 최대 높이를 400px로 설정 */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px; /* 크기를 키움 */
+  color: white; /* 색상을 하얀색으로 변경 */
+  cursor: pointer;
+}
+
+p {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  text-align: center;
+  font-size: 18px;
+  color: #676767;
+}
+.frame {
+  width: 90%;
+  margin: 40px auto;
+  text-align: center;
+}
+button {
+  margin: 20px;
+}
+.custom-btn {
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}.btn-5 {
+  width: 130px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+  background: rgb(255,27,0);
+background: linear-gradient(0deg, rgba(255,27,0,1) 0%, rgba(251,75,2,1) 100%);
+}
+.btn-5:hover {
+  color: #f0094a;
+  background: transparent;
+   box-shadow:none;
+}
+.btn-5:before,
+.btn-5:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #f0094a;
+  box-shadow:
+   -1px -1px 5px 0px #fff,
+   7px 7px 20px 0px #0003,
+   4px 4px 5px 0px #0002;
+  transition:400ms ease all;
+}
+.btn-5:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.btn-5:hover:before,
+.btn-5:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: #000000;
+  background-image: none;
+}
+
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+  
+}
+
+/* Custom Select */
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  background: #d49500;
+  overflow: hidden;
+  border-radius: .25em;
+}
+
+select {
+  flex: 1;
+  padding: 0 .5em;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #34495e;
+  cursor: pointer;
+  pointer-events: none;
+  transition: .25s all ease;
+}
+
+/* Transition */
+.select:hover::after {
+  color: #f39c12;
 }
