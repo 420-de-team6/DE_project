@@ -10,7 +10,7 @@ function AudioList() {
   const [isPlaying1, setIsPlaying1] = useState(false)
   const [duration1, setDuration1] = useState(0)
   const [currentTime1, setCurrentTime1] = useState(0)
-
+  const [inputValue1, setInputValue1] = useState('');
   const audioRef1 = useRef()
 
   const [showPopup, setShowPopup] = useState(false);
@@ -62,6 +62,9 @@ function AudioList() {
     audio.currentTime = (audio.duration / 100) * e.target.value
     setPercentage2(e.target.value)
   }
+  const handleInputChange1 = (event) => {
+    setInputValue1(event.target.value);
+  };
 
   const play2 = () => {
     const audio = audioRef2.current
@@ -114,6 +117,7 @@ function AudioList() {
     setPercentage3(+percent)
     setCurrentTime3(time.toFixed(2))
   }
+
   /* 선택창 */
   const [MainMusic, setFirstSelect] = useState('');
   const [SubMusic, setSecondSelect] = useState('');
@@ -159,7 +163,7 @@ function AudioList() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ MainMusic, SubMusic })
+          body: JSON.stringify({ MainMusic, SubMusic, inputValue1 })
         }).then(response => response.json())
         .then(data => {
           console.log(data.message);
@@ -189,6 +193,7 @@ function AudioList() {
         console.error('Error fetching data from backend:', error);
       });
   }, []); 
+
   const subAudioPath = require('../Music/music_file/sub.wav');
   const mainAudioPath = require('../Music/music_file/main.wav');
   const ouputAudioPath = require('../Music/output/output.wav');
@@ -234,7 +239,7 @@ function AudioList() {
            <option key={index} value={music}>{music}</option>
            ))}
       </select>
-      <button class="custom-btn btn-5" onClick={saveSelection}>Select</button>
+      <button class="custom-btn btn-5" onClick={saveSelection}>Select and view</button>
     {/* 선택된 오디오 파일을 재생하는 컴포넌트 */}
     <div className='app-container'>
       <h1>Main_Music</h1>
@@ -271,8 +276,26 @@ function AudioList() {
         duration={duration2}
         currentTime={currentTime2}
       />
+      <h2>Which section do you want to cut?</h2>
+      <input 
+        type="text" 
+        value={inputValue1} 
+        onChange={handleInputChange1} 
+        placeholder="Ex) 2:10" 
+        style={{
+        background: '#eee',
+        padding: '16px',
+        margin: '8px 0',
+        width: '300px',
+        border: '0',
+        outline: 'none',
+        borderRadius: '20px',
+        boxShadow: 'inset 7px 2px 10px #babebc, inset -5px -5px 12px #fff'
+        }}
+        />
     </div>
       <button class="btn-hover color-2" onClick={Mix_music}>Mix</button>
+
       {showPopup && (
         <div className="popup">
           <div className="popup-content">

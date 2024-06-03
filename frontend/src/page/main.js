@@ -32,7 +32,7 @@ function Main(){
     const handleInputChange1 = (event) => {
         setInputValue1(event.target.value);
       };
-    
+
       // 버튼을 클릭할 때 호출되는 함수
     const handleSave1 = () => {
         setSavedValue1(inputValue1);
@@ -48,7 +48,7 @@ function Main(){
              <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
                <button class="btn-hover color-2">Go to YouTube</button>
              </a>
-           <h1>Type the url of youtube music list</h1>
+           <h1>Type the url of your main music in youtube</h1>
            <input 
                type="text" 
                value={inputValue1} 

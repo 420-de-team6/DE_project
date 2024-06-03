@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from typing import List
-from  classification import clf
+from  classification import classification
 from demo_musicgen import generate_music
 import pygame
 import io
@@ -13,6 +13,8 @@ import shutil
 app = FastAPI()
 global music 
 music =None
+global list_url
+list_url = None
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -37,11 +39,18 @@ class SaveData(BaseModel):
 class SelectMusic(BaseModel):
     MainMusic: str
     SubMusic: str
+class MixMusic(BaseModel):
+    MainMusic: str
+    SubMusic: str
+    inputValue1: str
+    
 @app.post("/save")
 async def mix_music(data: SaveData):
     print("selected music:", data.inputValue1)
     global music
-    music=make_audio_from_youtube.download(data.inputValue1)
+    global list_url
+    list_url=make_audio_from_youtube.title_url_pairs(data.inputValue1)
+    music=make_audio_from_youtube.get_playlist_titles(data.inputValue1)
     print(music)
     return {"music_list": music, "message": "true"}
 
@@ -53,33 +62,37 @@ async def next_stage():
 @app.post("/select")
 async def Select_Two_Music(data: SelectMusic):
     print(data.MainMusic, data.SubMusic)
+    main_link = list_url[data.MainMusic]
+    sub_link = list_url[data.SubMusic]
     main_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.MainMusic
     sub_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.SubMusic
     destination_dir = "C:/Users/daniel/Desktop/DE_project/frontend/src/Music/music_file"
-    if not os.path.exists(main_path):
-        raise HTTPException(status_code=404, detail=f"MainMusic file not found: {main_path}")
-    if not os.path.exists(sub_path):
-        raise HTTPException(status_code=404, detail=f"SubMusic file not found: {sub_path}")
+    make_audio_from_youtube.delete_video()
+    make_audio_from_youtube.audio_extractor([main_link, sub_link], "C:/Users/daniel/Desktop/DE_project/backend/Music/download/")
+    # if not os.path.exists(main_path):
+    #     raise HTTPException(status_code=404, detail=f"MainMusic file not found: {main_path}")
+    # if not os.path.exists(sub_path):
+    #     raise HTTPException(status_code=404, detail=f"SubMusic file not found: {sub_path}")
     
-    # Ensure the destination directory exists
-    os.makedirs(destination_dir, exist_ok=True)
+    # # Ensure the destination directory exists
+    # os.makedirs(destination_dir, exist_ok=True)
     
-    # Define the destination paths
-    main_dest_path = os.path.join(destination_dir, "main.wav")
-    sub_dest_path = os.path.join(destination_dir, "sub.wav")
+    # # Define the destination paths
+    # main_dest_path = os.path.join(destination_dir, "main.wav")
+    # sub_dest_path = os.path.join(destination_dir, "sub.wav")
     
-    # Copy the files to the destination directory
-    try:
-        shutil.copy2(main_path, main_dest_path)
-        shutil.copy2(sub_path, sub_dest_path)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error copying files: {str(e)}")
+    # # Copy the files to the destination directory
+    # try:
+    #     shutil.copy2(main_path, main_dest_path)
+    #     shutil.copy2(sub_path, sub_dest_path)
+    # except Exception as e:
+    #     raise HTTPException(status_code=500, detail=f"Error copying files: {str(e)}")
     
-    return {
-        "main_path": main_dest_path,
-        "sub_path": sub_dest_path,
-        "message": "Files copied successfully"
-    }
+    # return {
+    #     "main_path": main_dest_path,
+    #     "sub_path": sub_dest_path,
+    #     "message": "Files copied successfully"
+    # }
     
 @app.post("/Mix_music")
 async def mix_music(data: SelectMusic):
@@ -98,6 +111,8 @@ async def mix_music(data: SelectMusic):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error copying files: {str(e)}")
     print("결과반환")
+    genre = classification(sub_path)
+    print("sub_genre: ", genre)
     # print('file_get:', selected_files)
     # selectedFile1 = selected_files.get("selectedFile1")
     # selectedFile2 = selected_files.get("selectedFile2")
