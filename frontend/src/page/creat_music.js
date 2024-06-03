@@ -1,12 +1,12 @@
-import React, { useState } from "react"; 
-import '../App.css';
+import React from "react";
+import "../App.css";
 
-function CreatMusic(){
-    return (
+function CreatMusic() {
+  return (
     <div>
       <h1>CreatMusic</h1>
     </div>
-    );
+  );
 }
 
-export default CreatMusic
+export default CreatMusic;

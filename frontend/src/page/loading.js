@@ -1,12 +1,12 @@
-import React, { useState } from "react"; 
-import '../App.css';
+import React from "react";
+import "../App.css";
 
-function Loading(){
-    return (
+function Loading() {
+  return (
     <div>
       <h1>Loading</h1>
     </div>
-    );
+  );
 }
 
-export default Loading
+export default Loading;
