@@ -31,9 +31,9 @@ async def root():
 
 
 @app.post("/generate")
-async def generate(file: UploadFile = File(...), prompt: str = Form(...)):
-    # file = request_body["file"]
-    # prompt = request_body["prompt"]
+async def generate(
+    file: UploadFile = File(...), prompt: str = Form(...), start_time: int = Form(0)
+):
 
     print(file)
     print("prompt:" + prompt)
@@ -44,11 +44,10 @@ async def generate(file: UploadFile = File(...), prompt: str = Form(...)):
         output_file="/tmp/${file.filename}",
         max_length=750,
         max_new_tokens=750,
+        start_time=start_time,
     )
 
     return StreamingResponse(audio, media_type="audio/wav")
-    # return FileResponse()
-    # return {"message": "Hello World"}
 
 
 if __name__ == "__main__":

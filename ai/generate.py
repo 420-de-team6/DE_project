@@ -11,9 +11,9 @@ async def generate_music(
     output_file,
     input_prompt,
     target_sample_rate=32000,
-    max_length=750,
-    max_new_tokens=750,
-    # max_length + max_new_tokens = 1500
+    max_length=750,  # 50 = 1s
+    max_new_tokens=750,  # 50 = 1s
+    start_time=0,  # 50 = 1s
 ):
     print("start generate_music")
     # print(input_prompt)
@@ -35,7 +35,7 @@ async def generate_music(
     np.array(data[1], dtype=np.float32)
 
     data = np.array(data, copy=False).astype("float32")
-    data = data[50 * 50 : max_length + 50 * 50]
+    data = data[start_time : max_length + start_time]
 
     print("Call model.generate")
     inputs = processor(
