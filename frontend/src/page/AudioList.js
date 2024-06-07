@@ -6,12 +6,12 @@ import axios from "axios";
 function AudioList() {
   // 오디오 설정
   //1
-  const [percentage1, setPercentage1] = useState(0)
-  const [isPlaying1, setIsPlaying1] = useState(false)
-  const [duration1, setDuration1] = useState(0)
-  const [currentTime1, setCurrentTime1] = useState(0)
-  const [inputValue1, setInputValue1] = useState('');
-  const audioRef1 = useRef()
+  const [percentage1, setPercentage1] = useState(0);
+  const [isPlaying1, setIsPlaying1] = useState(false);
+  const [duration1, setDuration1] = useState(0);
+  const [currentTime1, setCurrentTime1] = useState(0);
+  const [inputValue1, setInputValue1] = useState("");
+  const audioRef1 = useRef();
 
   const [showPopup, setShowPopup] = useState(false);
   //2
@@ -61,10 +61,10 @@ function AudioList() {
   };
 
   const onChange2 = (e) => {
-    const audio = audioRef2.current
-    audio.currentTime = (audio.duration / 100) * e.target.value
-    setPercentage2(e.target.value)
-  }
+    const audio = audioRef2.current;
+    audio.currentTime = (audio.duration / 100) * e.target.value;
+    setPercentage2(e.target.value);
+  };
   const handleInputChange1 = (event) => {
     setInputValue1(event.target.value);
   };
@@ -123,9 +123,9 @@ function AudioList() {
     ).toFixed(2);
     const time = e.currentTarget.currentTime;
 
-    setPercentage3(+percent)
-    setCurrentTime3(time.toFixed(2))
-  }
+    setPercentage3(+percent);
+    setCurrentTime3(time.toFixed(2));
+  };
 
   /* 선택창 */
   const [MainMusic, setFirstSelect] = useState("");
@@ -134,6 +134,10 @@ function AudioList() {
     setFirstSelect(event.target.value);
     console.log(SubMusic);
   };
+
+  const [mainMusicFile, setMainMusicFile] = useState();
+  const [subMusicFile, setSubMusicFile] = useState();
+  const [outputMusicFile, setOutputMusicFile] = useState();
 
   const handleSecondSelectChange = (event) => {
     setSecondSelect(event.target.value);
@@ -156,6 +160,28 @@ function AudioList() {
           .then((data) => {
             console.log("data.main_path", data.main_path);
           });
+
+        const main_music = await fetch("http://localhost:8000/music/main", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => res.blob());
+        console.log(main_music);
+        const main_music_url = URL.createObjectURL(main_music);
+        setMainMusicFile(main_music_url);
+        const sub_music = await fetch("http://localhost:8000/music/sub", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => res.blob());
+
+        if (sub_music) {
+          const sub_music_url = URL.createObjectURL(sub_music);
+          console.log(sub_music);
+          setSubMusicFile(sub_music_url);
+        }
       } else {
         console.error("Main Music and Sub Music must be selected."); // Main Music과 Sub Music이 선택되지 않은 경우 에러 출력
       }
@@ -173,22 +199,21 @@ function AudioList() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ MainMusic, SubMusic, inputValue1 })
-        }).then(response => response.json())
-        .then(data => {
-          console.log(data.message);
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data.message);
-          });
+          body: JSON.stringify({ MainMusic, SubMusic, inputValue1 }),
+        }).then((response) => response.blob());
+        const output_music_url = URL.createObjectURL(response);
+        setOutputMusicFile(output_music_url);
+        // .then((response) => response.json())
+        // .then((data) => {
+        //   console.log(data.message);
+        // });
       } else {
         console.error("Main Music and Sub Music must be selected."); // Main Music과 Sub Music이 선택되지 않은 경우 에러 출력
       }
+      setShowPopup(true); // 항상 팝업창을 표시
     } catch (error) {
       console.error("Error saving selection:", error);
     } finally {
-      setShowPopup(true); // 항상 팝업창을 표시
     }
   };
   const closePopup = () => {
@@ -201,22 +226,26 @@ function AudioList() {
       .then((response) => response.json())
       .then((data) => {
         setMusicList(data.music_list);
+        console.log(data.music_list);
         console.log("Received music list:", data.music_list);
       })
       .catch((error) => {
         console.error("Error fetching data from backend:", error);
       });
   }, []);
-  const subAudioPath = require("../Music/music_file/sub.wav");
-  const mainAudioPath = require("../Music/music_file/main.wav");
-  const ouputAudioPath = require("../Music/output/output.wav");
+
+  // const subAudioPath = require("../Music/music_file/sub.wav");
+  // const mainAudioPath = require("../Music/music_file/main.wav");
+  // const ouputAudioPath = require("../Music/output/output.wav");
+
+  console.log(mainMusicFile);
+  console.log(subMusicFile);
 
   const handleDownload = async () => {
     try {
-      const response = await axios.get(ouputAudioPath, {
+      const response = await axios.get(outputMusicFile, {
         responseType: "blob", // 바이너리 데이터로 응답받기 위해 설정
       });
-
       // 파일 다운로드를 위한 링크 생성
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
@@ -224,7 +253,6 @@ function AudioList() {
       link.setAttribute("download", "Output.wav"); // 다운로드할 파일명 설정
       document.body.appendChild(link);
       link.click();
-
       // 다운로드 후 링크 제거
       link.parentNode.removeChild(link);
     } catch (error) {
@@ -250,86 +278,105 @@ function AudioList() {
           ))}
         </select>
 
-      {/* 두 번째 선택 리스트 */}
-      <h2> Select Sub Music </h2>
-      <select className="select" value={SubMusic} onChange={handleSecondSelectChange}>
-        <option value="">Choose one</option>
-           {musicList.map((music, index) => (
-           <option key={index} value={music}>{music}</option>
-           ))}
-      </select>
-      <button class="custom-btn btn-5" onClick={saveSelection}>Select and view</button>
-    {/* 선택된 오디오 파일을 재생하는 컴포넌트 */}
-    <div className='app-container'>
-      <h1>Main_Music</h1>
-      <Slider percentage={percentage1} onChange={onChange1} />
-      <audio
-        ref={audioRef1}
-        onTimeUpdate={getCurrDuration1}
-        onLoadedData={(e) => {
-          setDuration1(e.currentTarget.duration.toFixed(2))
-        }}
-        src={mainAudioPath}
-      ></audio>
-      <ControlPanel
-        play={play1}
-        isPlaying={isPlaying1}
-        duration={duration1}
-        currentTime={currentTime1}
-      />
-    </div>
-    <div className='app-container'>
-      <h1>Sub_Music</h1>
-      <Slider percentage={percentage2} onChange={onChange2} />
-      <audio
-        ref={audioRef2}
-        onTimeUpdate={getCurrDuration2}
-        onLoadedData={(e) => {
-          setDuration2(e.currentTarget.duration.toFixed(2))
-        }}
-        src={subAudioPath}
-      ></audio>
-      <ControlPanel
-        play={play2}
-        isPlaying={isPlaying2}
-        duration={duration2}
-        currentTime={currentTime2}
-      />
-      <h2>Which section do you want to cut?</h2>
-      <input 
-        type="text" 
-        value={inputValue1} 
-        onChange={handleInputChange1} 
-        placeholder="Ex) 2:10" 
-        style={{
-        background: '#eee',
-        padding: '16px',
-        margin: '8px 0',
-        width: '300px',
-        border: '0',
-        outline: 'none',
-        borderRadius: '20px',
-        boxShadow: 'inset 7px 2px 10px #babebc, inset -5px -5px 12px #fff'
-        }}
-        />
-    </div>
-      <button class="btn-hover color-2" onClick={Mix_music}>Mix</button>
+        {/* 두 번째 선택 리스트 */}
+        <h2> Select Sub Music </h2>
+        <select
+          className="select"
+          value={SubMusic}
+          onChange={handleSecondSelectChange}
+        >
+          <option value="">Choose one</option>
+          {musicList.map((music, index) => (
+            <option key={index} value={music}>
+              {music}
+            </option>
+          ))}
+        </select>
+        <button class="custom-btn btn-5" onClick={saveSelection}>
+          Select and view
+        </button>
+        {/* 선택된 오디오 파일을 재생하는 컴포넌트 */}
+        <div className="app-container">
+          <h1>Main_Music</h1>
+          <Slider percentage={percentage1} onChange={onChange1} />
+          {mainMusicFile && (
+            <audio
+              ref={audioRef1}
+              onTimeUpdate={getCurrDuration1}
+              onLoadedData={(e) => {
+                setDuration1(e.currentTarget.duration.toFixed(2));
+              }}
+              src={mainMusicFile}
+            ></audio>
+          )}
+          <ControlPanel
+            play={play1}
+            isPlaying={isPlaying1}
+            duration={duration1}
+            currentTime={currentTime1}
+          />
+        </div>
+        <div className="app-container">
+          <h1>Sub_Music</h1>
+          <Slider percentage={percentage2} onChange={onChange2} />
+          {subMusicFile && (
+            <audio
+              ref={audioRef2}
+              onTimeUpdate={getCurrDuration2}
+              onLoadedData={(e) => {
+                setDuration2(e.currentTarget.duration.toFixed(2));
+              }}
+              src={subMusicFile}
+            ></audio>
+          )}
+          <ControlPanel
+            play={play2}
+            isPlaying={isPlaying2}
+            duration={duration2}
+            currentTime={currentTime2}
+          />
+          <h2>Which section do you want to cut?</h2>
+          <input
+            type="text"
+            value={inputValue1}
+            onChange={handleInputChange1}
+            placeholder="Ex) 2:10"
+            style={{
+              background: "#eee",
+              padding: "16px",
+              margin: "8px 0",
+              width: "300px",
+              border: "0",
+              outline: "none",
+              borderRadius: "20px",
+              boxShadow:
+                "inset 7px 2px 10px #babebc, inset -5px -5px 12px #fff",
+            }}
+          />
+        </div>
+        <button class="btn-hover color-2" onClick={Mix_music}>
+          Mix
+        </button>
 
-      {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <span className="close" onClick={closePopup}>&times;</span>
-            <div className='app-container'>
-              <h1>Output</h1>
-              <Slider percentage={percentage3} onChange={onChange3} />
-                <audio
-                  ref={audioRef3}
-                  onTimeUpdate={getCurrDuration3}
-                  onLoadedData={(e) => {
-                    setDuration3(e.currentTarget.duration.toFixed(2));
-                  }}
-                  src={ouputAudioPath}
-                ></audio>
+        {showPopup && (
+          <div className="popup">
+            <div className="popup-content">
+              <span className="close" onClick={closePopup}>
+                &times;
+              </span>
+              <div className="app-container">
+                <h1>Output</h1>
+                <Slider percentage={percentage3} onChange={onChange3} />
+                {outputMusicFile && (
+                  <audio
+                    ref={audioRef3}
+                    onTimeUpdate={getCurrDuration3}
+                    onLoadedData={(e) => {
+                      setDuration3(e.currentTarget.duration.toFixed(2));
+                    }}
+                    src={outputMusicFile}
+                  ></audio>
+                )}
                 <ControlPanel
                   play={play3}
                   isPlaying={isPlaying3}

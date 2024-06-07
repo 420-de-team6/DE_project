@@ -69,6 +69,7 @@ def audio_extractor(playlist_urls, output_folder):
         os.makedirs(output_folder)
 
     filenames = ["main.wav", "sub.wav"]
+    video_paths = []
     for index, (video_url, filename) in enumerate(zip(playlist_urls, filenames)):
         print(f"Processing video {
               index + 1}/{len(playlist_urls)}: {video_url}")
@@ -81,6 +82,8 @@ def audio_extractor(playlist_urls, output_folder):
                 print(f"Failed to convert video to wav: {video_path}")
         else:
             print(f"Failed to download video: {video_url}")
+        video_paths.append(wav_path)
+    return video_paths
 
 def title_url_pairs(url):
     try:

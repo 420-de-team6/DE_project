@@ -30,7 +30,7 @@ MacOS 기준
    pyproject.toml 형식으로 설치할 수 없는 의존성 패키지들입니다.
 
 6. 실행
-   `.venv/bin/uvicorn main:app --reload`
+   `.venv/bin/uvicorn main:app --reload --port 8001`
 
 7. 생성 요청
 
