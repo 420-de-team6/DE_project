@@ -46,8 +46,15 @@ async def generate_music(
         return_tensors="pt",
     )
 
+    print(*inputs)
+
+    model_kwargs = {
+        "input_ids": inputs["input_ids"],
+        "attention_mask": inputs["attention_mask"],
+    }
+
     audio_values = model.generate(
-        **inputs,
+        **model_kwargs,
         do_sample=True,
         guidance_scale=3,
         max_new_tokens=max_new_tokens,

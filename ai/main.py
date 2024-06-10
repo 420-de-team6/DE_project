@@ -2,11 +2,13 @@ from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from generate import generate_music
 
+from scipy.io import wavfile
+
 # from demo_musicgen import generate_music
 import uvicorn
 import io
 from fastapi.responses import StreamingResponse, FileResponse
-from typing import Dict
+import librosa
 
 app = FastAPI()
 
@@ -28,6 +30,32 @@ app.add_middleware(
 async def root():
     print("success")
     return {"message": "Hello World"}
+
+
+@app.post("/crop")
+async def crop(
+    file: UploadFile = File(...),
+    start_time: int = Form(0),
+    end_time: int = Form(0),
+    sample: int = Form(32000),
+):
+    print(file)
+    # Load the uploaded audio file
+    audio_data, _ = librosa.load(io.BytesIO(await file.read()), sr=None)
+
+    # Crop the audio based on start_time and end_time
+    cropped_audio = audio_data[start_time:end_time]
+    print(audio_data.shape, cropped_audio.shape, sample)
+
+    # Convert the cropped audio to WAV format
+    byte_io = io.BytesIO()
+    wavfile.write(byte_io, rate=sample, data=cropped_audio)
+    result = io.BytesIO(byte_io.read())
+    result.seek(0)
+
+    # Set the file pointer to the beginning of the output_io
+    # Return the cropped audio as a streaming response
+    return StreamingResponse(result, media_type="audio/wav")
 
 
 @app.post("/generate")
