@@ -24,6 +24,7 @@ export const FindMusicPage = () => {
     setAudioPercentage(0);
     setAudioPlaying(false);
   }, [musicStore.currentMusic, musicStore.currentPlayMusic]);
+
   return (
     <div className="w-full h-full bg-gray-950  flex flex-row relative">
       <div className="w-full m-4">

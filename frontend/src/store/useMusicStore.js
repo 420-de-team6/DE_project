@@ -143,4 +143,6 @@ export const useYoutubeMusicStore = create((set) => ({
   youtubeMusicList: [],
   youtubeMainMusic: null,
   youtubeSubMusic: null,
+
+  setMusicList: (musicList) => set({ youtubeMusicList: musicList }),
 }));

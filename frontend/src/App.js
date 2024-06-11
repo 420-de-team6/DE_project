@@ -7,6 +7,8 @@ import Loading from "./page/loading.js";
 import CreatMusic from "./page/creat_music.js";
 import { Layout } from "./components/layout/Layout.js";
 import { FindMusicPage } from "./components/find-music/FindMusicPage.js";
+import { CreateMusicPage } from "./components/create-music/CreateMusicPage.js";
+import { HomePage } from "./components/home/HomePage.js";
 function App() {
   return (
     <>
@@ -14,9 +16,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/view-music" element={<FindMusicPage />} />
-            <Route path="/create-music" element={<AudioList />} />
+            <Route path="/create-music" element={<CreateMusicPage />} />
             {/* <Route path="/audiolist" element={<AudioList />} />
             <Route path="/audiolist/loading" element={<Loading />} />
             <Route path="/creat-music" element={<CreatMusic />} /> */}

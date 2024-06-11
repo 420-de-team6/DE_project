@@ -21,7 +21,7 @@ function Main() {
         if (data.message === "true") {
           setMusicList(data.music_list);
           if (data.music_list.length > 0) {
-            navigate("/audiolist");
+            navigate("/create-music");
           }
         }
       })
