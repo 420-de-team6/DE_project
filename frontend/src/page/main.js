@@ -7,7 +7,7 @@ function Main() {
   const [savedValue1, setSavedValue1] = useState("");
   const [musicList, setMusicList] = useState([]);
   const Move_Nextpage = () => {
-    fetch("http://localhost:8000/save", {
+    fetch("http://43.203.252.20//save", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
