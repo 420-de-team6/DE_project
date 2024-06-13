@@ -15,7 +15,30 @@ export const HomePage = () => {
 
     // 혹은 서버에 API 따로 파기
     // 근데 전자가 . 더나을듯
-    navigate("/create-music");
+    fetch("http://localhost:8000/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        inputValue1:
+          "https://www.youtube.com/watch?v=T--6HBX2K4g&list=PLZmCBbwyaZWXyjEbMMeLSW3hJr1YbiZHt",
+      }), // 입력 값을 JSON 형식으로 변환하여 전송합니다.
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // 서버로부터의 응답을 처리합니다.
+        console.log("서버 응답:", data);
+        if (data.message === "true") {
+          // setMusicList(data.music_list);
+          if (data.music_list.length > 0) {
+            navigate("/create-music");
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("오류:", error);
+      });
   };
 
   const handleClickGenerate = () => {
@@ -63,8 +86,8 @@ export const HomePage = () => {
                   Playlist
                 </h2>
                 <p className="mt-4 text-lg leading-8 text-gray-300">
-                  Nostrud amet eu ullamco nisi aute in ad minim nostrud
-                  adipisicing velit quis. Duis tempor incididunt dolore.
+                  Put an url and Mix your two favorite songs from your YouTube
+                  Music PlayList!
                 </p>
                 <div className="mt-6 flex max-w-md gap-x-4 w-full ">
                   <label htmlFor="email-address" className="sr-only">
@@ -114,10 +137,10 @@ export const HomePage = () => {
                 {/* <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2"> */}
                 <div className="flex justify-center flex-col  items-start w-fit">
                   <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                    현재 만들어진 노래 리스트
+                    AI Mixing Music List
                   </h2>
                   <p className="mt-4 text-lg leading-8 text-gray-300">
-                    이미 합성된 노래들을 확인하세요.
+                    AI 모델로 믹싱된 노래들을 확인해보세요!
                   </p>
                 </div>
               </div>
@@ -144,10 +167,10 @@ export const HomePage = () => {
                 {/* <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2"> */}
                 <div className="flex justify-center flex-col items-start w-fit">
                   <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                    기존 플레이리스트 시작하기
+                    Start with existing playlist
                   </h2>
                   <p className="mt-4 text-lg leading-8 text-gray-300">
-                    Top-100 플레이리스트로 음악을 생성해보세요
+                    랜덤 플레이리스트로 새로운 음악을 생성해보세요
                   </p>
                 </div>
               </div>

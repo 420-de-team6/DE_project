@@ -28,13 +28,7 @@ export const FindMusicPage = () => {
   return (
     <div className="w-full h-full bg-gray-950  flex flex-row relative">
       <div className="w-full m-4">
-        <div>
-          <div>
-            seach for song, artist lyrics...
-            <input type="text" placeholder="search" />
-          </div>
-          <div>{/* user profile */}</div>
-        </div>
+        <div></div>
         <div className="p-4 text-gray-200 font-bold text-xl">Find Music</div>
         <div className="flex flex-col gap-4 w-full h-[600px] overflow-scroll relative mb-4 ">
           {musicStore.musicList.map((music, idx) => {
@@ -62,7 +56,7 @@ export const FindMusicPage = () => {
                   </div>
                 </div>
 
-                <div className="text-gray-400">{music.genre}</div>
+                <div className="text-gray-400">{music.genre[0]}</div>
               </div>
             );
           })}
@@ -171,7 +165,7 @@ export const FindMusicPage = () => {
                                     />
                                     <div className="flex flex-col flex-1">
                                       <div className="text-white font-medium">
-                                        {music.genre}
+                                        {music.genre[0]}
                                       </div>
                                       <div className="text-gray-400 font-normal text-xs">
                                         {music.prompt}
@@ -197,7 +191,7 @@ export const FindMusicPage = () => {
                                 {musicStore.currentMusic?.name}
                               </div>
                               <div className="text-gray-400 font-normal text-base">
-                                {musicStore.currentPlayMusic?.genre}
+                                {musicStore.currentPlayMusic?.genre[0]}
                               </div>
                               {/* player */}
                               <div className="pt-2 w-full">

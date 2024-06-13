@@ -103,7 +103,15 @@ export const CreateMusicPage = () => {
         })
           .then((response) => response.json())
           .then((data) => {
+            if (data.detail === "Audio cannot download") {
+              window.alert(
+                "Unavailable music included. Please choose another music."
+              );
+            }
             console.log("data.main_path", data.main_path);
+          })
+          .catch((error) => {
+            console.log(error);
           });
 
         const main_music = await fetch("http://localhost:8000/music/main", {
@@ -187,7 +195,7 @@ export const CreateMusicPage = () => {
             <div className="rounded-lg bg-gray-900 w-fit h-fit p-2 ">
               <MusicalNoteIcon className="w-4 h-4 text-indigo-500" />
             </div>
-            <h1 className="text-white">Step 1. 음악 선택하기</h1>
+            <h1 className="text-white">Step 1. Select two favorite songs</h1>
           </div>
           <h2>Select First Music</h2>
           <select
@@ -247,7 +255,7 @@ export const CreateMusicPage = () => {
               {/* <MusicalNoteIcon className="w-4 h-4 text-indigo-500" /> */}
               <ScissorsIcon className="w-4 h-4 text-indigo-500" />
             </div>
-            <h1 className="text-white">Step 2. 음악 구간 선택하기</h1>
+            <h1 className="text-white">Step 2. Select highlight (15s)</h1>
           </div>
           {step.step === 2 && step.status === "loading" && (
             <div className="flex flex-col justify-center items-center">
@@ -270,12 +278,15 @@ export const CreateMusicPage = () => {
               />
               <div className="overflow-hidden h-6 text-center mt-4 text-indigo-500">
                 <LoadingAnimation>
-                  영상 생성 중<br />
-                  음악 장르 분류 중<br />
-                  생성 모델 초기화 중<br />
-                  inference
+                  Parsing Youtube Music...
                   <br />
-                  생성한 영상 다운로드 중
+                  Classifying sub music genre...
+                  <br />
+                  Initializing generative model...
+                  <br />
+                  Inferencing the model...
+                  <br />
+                  Downloading the generated music...
                 </LoadingAnimation>
               </div>
             </div>
@@ -318,7 +329,7 @@ export const CreateMusicPage = () => {
               {/* <MusicalNoteIcon className="w-4 h-4 text-indigo-500" /> */}
               <PaintBrushIcon className="w-4 h-4 text-indigo-500" />
             </div>
-            <h1 className="text-white">Step 3. 음악 생성</h1>
+            <h1 className="text-white">Step 3. Generate Music</h1>
           </div>
           {step.step === 3 && step.status === "loading" && (
             <div className="flex flex-col justify-center items-center">
@@ -341,12 +352,15 @@ export const CreateMusicPage = () => {
               />
               <div className="overflow-hidden h-6 text-center mt-4 text-indigo-500">
                 <LoadingAnimation>
-                  영상 생성 중<br />
-                  음악 장르 분류 중<br />
-                  생성 모델 초기화 중<br />
-                  inference
+                  Parsing Youtube Music...
                   <br />
-                  생성한 영상 다운로드 중
+                  Classifying sub music genre...
+                  <br />
+                  Initializing generative model...
+                  <br />
+                  Inferencing the model...
+                  <br />
+                  Downloading the generated music...
                 </LoadingAnimation>
               </div>
             </div>

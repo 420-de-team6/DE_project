@@ -22,32 +22,32 @@ import { create } from "zustand";
  */
 export const useMusicStore = create((set) => ({
   musicList: [
-    {
-      name: "Hot Sweet",
-      description: "Hot sweet ",
-      img: "https://img.youtube.com/vi/p-WJM05Eh8N7jOcU/0.jpg",
-      originalMusic: "/music/hot_sweet.wav",
-      artist: "NewJeans",
-      genre: ["K pop", "Miami Bass"],
-      // 생성 시점
-      from: "3:00",
-      to: "4:00",
-      // generateMusics: ["Generate Music 1", "Generate Music 2"],
-      generateMusics: [
-        {
-          genre: "Original",
-          prompt: "Original",
-          img: "https://img.youtube.com/vi/p-WJM05Eh8N7jOcU/0.jpg",
-          music: "/music/hot_sweet/original.wav",
-        },
-        {
-          genre: "K pop",
-          prompt: "Generate Music 1",
-          img: "https://img.youtube.com/vi/p-WJM05Eh8N7jOcU/0.jpg",
-          music: "/music/hot_sweet/jazz.wav",
-        },
-      ],
-    },
+    // {
+    //   name: "Hot Sweet",
+    //   description: "Hot sweet ",
+    //   img: "https://img.youtube.com/vi/p-WJM05Eh8N7jOcU/0.jpg",
+    //   originalMusic: "/music/hot_sweet.wav",
+    //   artist: "NewJeans",
+    //   genre: ["K pop", "Miami Bass"],
+    //   // 생성 시점
+    //   from: "3:00",
+    //   to: "4:00",
+    //   // generateMusics: ["Generate Music 1", "Generate Music 2"],
+    //   generateMusics: [
+    //     {
+    //       genre: "Original",
+    //       prompt: "Original",
+    //       img: "https://img.youtube.com/vi/p-WJM05Eh8N7jOcU/0.jpg",
+    //       music: "/music/hot_sweet/original.wav",
+    //     },
+    //     {
+    //       genre: "K pop",
+    //       prompt: "Generate Music 1",
+    //       img: "https://img.youtube.com/vi/p-WJM05Eh8N7jOcU/0.jpg",
+    //       music: "/music/hot_sweet/jazz.wav",
+    //     },
+    //   ],
+    // },
     {
       name: "Lets Funkey",
       description: "Lets Funkey",
@@ -149,7 +149,7 @@ export const useMusicStore = create((set) => ({
           prompt: "Generate Music 1",
           img: "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/084/630/393/84630393_1703057545397_1_600x600.JPG",
           music: "/music/realize/realize_Relaxed and smooth Cool jazz.wav",
-        }
+        },
       ],
     },
     {
@@ -174,14 +174,15 @@ export const useMusicStore = create((set) => ({
           genre: ["jazz", "smooth"],
           prompt: "Generate Music 1",
           img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbr4hR2BblaRtcM-f7NtGllsUZ6NmGFjnJTQ&s",
-          music: "/music/antifreeze/antifreeze_Relaxed and smooth Cool jazz.wav",
+          music:
+            "/music/antifreeze/antifreeze_Relaxed and smooth Cool jazz.wav",
         },
         {
           genre: ["classical", "elegant"],
           prompt: "Generate Music 1",
           img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbr4hR2BblaRtcM-f7NtGllsUZ6NmGFjnJTQ&s",
           music: "/music/antifreeze/antifreeze_classic.wav",
-        }
+        },
       ],
     },
     {
@@ -207,14 +208,15 @@ export const useMusicStore = create((set) => ({
           prompt: "Generate Music 1",
           img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoxRuYdIR6Ux8ctjKj_8xJ-oTinC38NgC3rw&s",
           music: "/music/Bamyang/bamyang_generate_classic_rock.mp3",
-        }
+        },
       ],
     },
     {
       name: "고민중독",
       description: "고민중독",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1sa7NOWVT6ZgRXzqbC6Q3KXX4sAGcHC4DDg&s",
-      originalMusic: "/music/AddictionToWorry/AddictionToWorry_original_from_20s.wav",
+      originalMusic:
+        "/music/AddictionToWorry/AddictionToWorry_original_from_20s.wav",
       artist: "QWER",
       genre: ["pop", "upbeat"],
       // 생성 시점
@@ -233,7 +235,7 @@ export const useMusicStore = create((set) => ({
           prompt: "Generate Music 1",
           img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1sa7NOWVT6ZgRXzqbC6Q3KXX4sAGcHC4DDg&s",
           music: "/music/AddictionToWorry/AddictionToWorry_generate_jazz.mp3",
-        }
+        },
       ],
     },
     {
@@ -259,7 +261,7 @@ export const useMusicStore = create((set) => ({
           prompt: "Generate Music 1",
           img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1s-eq8h5WURY_r0ssAwpLloXp4TELZQMt1w&s",
           music: "/music/AddictionToWorry/AddictionToWorry_generate_jazz.mp3",
-        }
+        },
       ],
     },
     {
@@ -285,7 +287,7 @@ export const useMusicStore = create((set) => ({
           prompt: "Generate Music 1",
           img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIv_CQaizE8YxWov6fLxSXigT1d7ydOfTxzQ&s",
           music: "/music/lastdance/Last-Dance-Disco.wav",
-        }
+        },
       ],
     },
     {
@@ -311,10 +313,9 @@ export const useMusicStore = create((set) => ({
           prompt: "Generate Music 1",
           img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7fGrFxc83shyzi97j8kqMBH8_cTA0ax1I8Q&s",
           music: "/music/HypeBoy/Hype-Boy-Rock.wav",
-        }
+        },
       ],
     },
-
   ],
 
   // 현재 선택된 음악
