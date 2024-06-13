@@ -60,7 +60,6 @@ async def mix_music(data: SaveData):
     global list_url
     list_url = make_audio_from_youtube.title_url_pairs(data.inputValue1)
     music = make_audio_from_youtube.get_playlist_titles(data.inputValue1)
-    print(music)
     return {"music_list": music, "message": "true"}
 
 
@@ -91,8 +90,7 @@ async def Select_Two_Music(data: SelectMusic):
     sub_link = list_url[data.SubMusic]
     # main_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.MainMusic
     # sub_path = "C:/Users/daniel/Desktop/DE_project/backend/Music/download/" + data.SubMusic
-    audio_origin_path = "./Music/download/"
-    destination_dir = "../frontend/src/Music/music_file"
+    # audio_origin_path = "./Mus녀ㅠ_tend/src/Music/music_file"
 
     print("start")
     try:
@@ -103,7 +101,7 @@ async def Select_Two_Music(data: SelectMusic):
         )
     except:
         print("start err")
-        raise HTTPException(status_code=404, detail=f"Audio cannot download")
+        raise HTTPException(status_code=401, detail=f"Audio cannot download")
 
     # make_audio_from_youtube.copy_file(audio_origin_path, destination_dir)
 
